@@ -4,3 +4,5 @@ title: Ugosan
 url: http://ugosan.org
 feed: /atom.xml
 author_info: <a href="http://ugosan.org/">BeiYuu</a>
+
+theme: jekyll-theme-minimal
