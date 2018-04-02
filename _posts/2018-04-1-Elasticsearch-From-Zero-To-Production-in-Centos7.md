@@ -9,12 +9,14 @@ You must make the change in 4 different places:
 
 1) **/etc/sysconfig/elasticsearch**
 
-On sysconfig: `/etc/sysconfig/elasticsearch` you should have:
+    On sysconfig: `/etc/sysconfig/elasticsearch` you should have:
 
+    ```
     ES_JAVA_OPTS="-Xms4g -Xmx4g" 
     MAX_LOCKED_MEMORY=unlimited
+    ```
 
-(replace 4g with HALF your available RAM as recommended [here][1])
+    (replace 4g with HALF your available RAM as recommended [here][1])
 
 2) **/etc/security/limits.conf**
 
@@ -42,7 +44,7 @@ Thats it, restart your node and the RAM will be locked, you should notice a majo
 
   [1]: https://www.elastic.co/guide/en/elasticsearch/guide/current/heap-sizing.html
 
-  
+
 Next you can update your site name, avatar and other options using the _config.yml file in the root of your repository (shown below).
 
 ![_config.yml]({{ site.baseurl }}/images/config.png)
