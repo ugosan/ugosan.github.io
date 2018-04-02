@@ -11,10 +11,10 @@ You must make the change in 4 different places:
 
 On sysconfig: `/etc/sysconfig/elasticsearch` you should have:
 
-    ```
-    ES_JAVA_OPTS="-Xms4g -Xmx4g" 
-    MAX_LOCKED_MEMORY=unlimited
-    ```
+```
+ES_JAVA_OPTS="-Xms4g -Xmx4g" 
+MAX_LOCKED_MEMORY=unlimited
+```
 
 `(replace 4g with HALF your available RAM as recommended [here][1])`
 
