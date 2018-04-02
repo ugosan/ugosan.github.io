@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Elasticsearch - From Zero to Production in Centos 7
+title: Elasticsearch - Locking Memory for Production 
 ---
 
 Here is what I have done to lock the memory on my ES nodes, version 5.4.0 on RedHat/Centos 7 (it will work on other distributions if they use **systemd**).
