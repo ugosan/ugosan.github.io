@@ -3,7 +3,7 @@ layout: post
 title: Elasticsearch - Locking Memory for Production 
 ---
 
-Here is what I have done to lock the memory on my ES nodes, version 5.4.0 on RedHat/Centos 7 (it will work on other distributions if they use **systemd**).
+Here is what I have done to lock the memory on Elasticsearch nodes on distributions that use **systemd**.
  
 You must make the change in 4 different places:
 
@@ -43,10 +43,3 @@ Thats it, restart your node and the RAM will be locked, you should notice a majo
 
 
   [1]: https://www.elastic.co/guide/en/elasticsearch/guide/current/heap-sizing.html
-
-
-Next you can update your site name, avatar and other options using the _config.yml file in the root of your repository (shown below).
-
-![_config.yml]({{ site.baseurl }}/images/config.png)
-
-The easiest way to make your first post is to edit this one. Go into /_posts/ and update the Hello World markdown file. For more instructions head over to the [Jekyll Now repository](https://github.com/barryclark/jekyll-now) on GitHub.
