@@ -3,17 +3,28 @@ layout: post
 title: Analyzing Credit Card Transactions with the Elastic Stack. Part 1 - Ingesting
 ---
 
-We are going to use an open dataset from State of Delaware.
+In this blog post I'm going to detail all the steps needed to load data from a CSV file into the Elastic Stack, so we can explore it, make visualizations, augment the original data and use more advanced techniques such as machine learning in order to 
+
+* **Part I - Ingesting the data** (You are here)
+* Part II - Graph and other visualizations
+* Part III - Fingerprinting transactions
+* Part IV - Machine Learning
+
+# The dataset
+
+We are going to use an open dataset from State of Delaware called **State Employee Credit Card Transactions**. 
 
 ![State of Delaware's Open Data Portal (https://data.delaware.gov/)](/images/delaware/portal.jpg)
 
+According to Delaware's Open Data portal: "Purchasing cards are used by employees within the Organization to purchase goods/services that are needed for business. These cards should also be used for registering travelers for conferences."
 
-# The dataset
+## Downloading the dataset
+You can choose **Export > CSV** from the portal or if you are on Mac or Linux you can download it directly using wget:
 ```
 wget https://data.delaware.gov/api/views/nurt-5rqw/rows.csv
 ```
 
-Purchasing cards are used by employees within the Organization to purchase goods/services that are needed for business. These cards should also be used for registering travelers for conferences. Hotel, airfare and other travel-related expenses are not permitted on the purchasing card.
+
 
 
 We can see that this dataset has the following headers: `FISCAL_YEAR`, `FISCAL_PERIOD`, `DEPT_NAME`, `DIV_NAME`, `MERCHANT`, `CAT_DESCR`, `TRANS_DT`, `MERCHANDISE_AMT` and about 1 million rows, one for every transaction ranging from 2013 to 2018.
@@ -32,15 +43,23 @@ FISCAL_YEAR,FISCAL_PERIOD,DEPT_NAME,DIV_NAME,MERCHANT,CAT_DESCR,TRANS_DT,MERCHAN
 ...
 ```
 
-# Ingesting
+# Ingesting a CSV with Logstash
 
 Enters Logstash
 ```
 wget https://artifacts.elastic.co/downloads/logstash/logstash-6.2.4.tar.gz
 ```
 
-
+## Pipelines
 ```
+input {}
+
+filter {}
+
+output {}
+```
+
+```yaml
 input {
     file {
         path => "path/to/State_Employee_Credit_Card_Transactions.csv"
@@ -51,7 +70,21 @@ input {
 filter {
     csv {
         separator => ","
-        autodetect_column_names => true
+        columns => ["fiscal_year","fiscal_period","department","division","merchant","category","date","amount"]
+    }
+
+    date {
+        match => [ "date", "MM/dd/yyyy" ]
+    }
+
+    mutate {
+        remove_field => [ "message", "date", "host", "path" ]
+    }
+
+    mutate {
+        gsub => [
+            "amount", "[\\$]", ""
+        ]
     }
 }
 
