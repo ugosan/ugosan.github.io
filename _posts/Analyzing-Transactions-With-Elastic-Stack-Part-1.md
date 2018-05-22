@@ -16,10 +16,10 @@ We are going to use an open dataset from State of Delaware called **State Employ
 
 ![State of Delaware's Open Data Portal (https://data.delaware.gov/)](/images/delaware/portal.jpg)
 
-According to Delaware's Open Data portal: "Purchasing cards are used by employees within the Organization to purchase goods/services that are needed for business. These cards should also be used for registering travelers for conferences."
+According to Delaware's Open Data portal this data set contains the : "Purchasing cards are used by employees within the Organization to purchase goods/services that are needed for business. These cards should also be used for registering travelers for conferences."
 
 ## Downloading the dataset
-You can choose **Export > CSV** from the portal or if you are on Mac or Linux you can download it directly using wget:
+You can choose **Export > CSV** from the portal or if you are on Mac/Linux you can download it directly using wget:
 ```
 wget https://data.delaware.gov/api/views/nurt-5rqw/rows.csv
 ```
@@ -45,12 +45,11 @@ FISCAL_YEAR,FISCAL_PERIOD,DEPT_NAME,DIV_NAME,MERCHANT,CAT_DESCR,TRANS_DT,MERCHAN
 
 # Ingesting a CSV with Logstash
 
-Enters Logstash
-```
-wget https://artifacts.elastic.co/downloads/logstash/logstash-6.2.4.tar.gz
-```
+We are going to use Logstash for ingesting the data. Let's download it and put it on our folder. https://artifacts.elastic.co/downloads/logstash/logstash-6.2.4.tar.gz
 
-## Pipelines
+_Logstash needs a Java runtime to be installed, OpenJDK_
+
+## Pipeline configuration
 ```
 input {}
 
@@ -59,7 +58,30 @@ filter {}
 output {}
 ```
 
-```yaml
+
+### The `file` input
+
+```ruby
+input {
+    file {
+        path => "path/to/State_Employee_Credit_Card_Transactions.csv"
+        start_position => "beginning"
+    }
+}
+```
+
+### Filters
+
+```ruby
+csv {
+    separator => ","
+    columns => ["fiscal_year","fiscal_period","department","division","merchant","category","date","amount"]
+}
+```
+
+### Final pipeline file
+The final pipeline file should look like this
+```ruby
 input {
     file {
         path => "path/to/State_Employee_Credit_Card_Transactions.csv"
@@ -73,14 +95,17 @@ filter {
         columns => ["fiscal_year","fiscal_period","department","division","merchant","category","date","amount"]
     }
 
+    #using the date in the event as the date 
     date {
         match => [ "date", "MM/dd/yyyy" ]
     }
 
+    #removing fields we dont need anymore
     mutate {
         remove_field => [ "message", "date", "host", "path" ]
     }
 
+    #removing the $ character from the amount field
     mutate {
         gsub => [
             "amount", "[\\$]", ""
@@ -95,4 +120,5 @@ output {
 }
 ```
 
-## Fingerprinting Transactions
+# Fingerprinting Transactions
+
