@@ -61,21 +61,37 @@ output {}
 
 ### The `file` input
 
+The `file` input stream events from files, normally by tailing them in a manner similar to `tail -0F` but optionally reading them from the beginning, which is exactly what we are going to do with this file.
+
 ```ruby
 input {
     file {
         path => "path/to/State_Employee_Credit_Card_Transactions.csv"
         start_position => "beginning"
+        sincedb_path => "NUL"
     }
 }
 ```
 
+This input will pass along every line of the file through the filters, starting from the `beggining`. Logstash also keeps track of the last processed line in the csv, writing a log file specified in `sincedb_path`. We are probably going to be testing and debugging the pipeline, so want to set it to `NUL` to start afresh every time. 
+
 ### Filters
+Once we have specificed the `input{}` there are a couple of filters we will use.
+
+First is the `csv` filter, we should tell the names of the columns that will become field names of our documents.
 
 ```ruby
 csv {
     separator => ","
-    columns => ["fiscal_year","fiscal_period","department","division","merchant","category","date","amount"]
+    columns => ["fiscal_year","fiscal_period","department","division","merchant","category","transaction_date","amount"]
+}
+```
+
+The `date` filter takes a text field and parses it according to a pattern, and uses the resulting date as the document's timestamp field. In our case we have `transaction_date` expressed like "05/20/2016" which would be `"MM/dd/yyyy"`
+
+```ruby
+date {
+    match => [ "transaction_date", "MM/dd/yyyy" ]
 }
 ```
 
@@ -86,23 +102,24 @@ input {
     file {
         path => "path/to/State_Employee_Credit_Card_Transactions.csv"
         start_position => "beginning"
+        sincedb_path => "NUL"
     }
 }
 
 filter {
     csv {
         separator => ","
-        columns => ["fiscal_year","fiscal_period","department","division","merchant","category","date","amount"]
+        columns => ["fiscal_year","fiscal_period","department","division","merchant","category","transaction_date","amount"]
     }
 
     #using the date in the event as the date 
     date {
-        match => [ "date", "MM/dd/yyyy" ]
+        match => [ "transaction_date", "MM/dd/yyyy" ]
     }
 
     #removing fields we dont need anymore
     mutate {
-        remove_field => [ "message", "date", "host", "path" ]
+        remove_field => [ "message", "transaction_date", "host", "path" ]
     }
 
     #removing the $ character from the amount field
