@@ -66,7 +66,7 @@ The `file` input stream events from files, normally by tailing them in a manner 
 ```ruby
 input {
     file {
-        path => "path/to/State_Employee_Credit_Card_Transactions.csv"
+        path => "path/to/csv-files/State_Employee_Credit_Card_Transactions.csv"
         start_position => "beginning"
         sincedb_path => "NUL"
     }
@@ -75,10 +75,8 @@ input {
 
 This input will pass along every line of the file through the filters, starting from the `beggining`. Logstash also keeps track of the last processed line in the csv, writing a log file specified in `sincedb_path`. We are probably going to be testing and debugging the pipeline, so want to set it to `NUL` to start afresh every time. 
 
-### Filters
-Once we have specificed the `input{}` there are a couple of filters we will use.
-
-First is the `csv` filter, we should tell the names of the columns that will become field names of our documents.
+### The `csv` filter
+Once we have specificed the `input{}` there are a couple of filters we will use. Let's start with the `csv` filter: we should tell the names of the columns that will become field names of our documents.
 
 ```ruby
 csv {
@@ -86,6 +84,60 @@ csv {
     columns => ["fiscal_year","fiscal_period","department","division","merchant","category","transaction_date","amount"]
 }
 ```
+
+
+
+### Testing our pipeline
+For now, this is the pipeline we have:
+
+```ruby
+input {
+    file {
+        path => "path/to/csv-files/State_Employee_Credit_Card_Transactions.csv"
+        start_position => "beginning"
+        sincedb_path => "NUL"
+    }
+}
+
+filter {
+    csv {
+        separator => ","
+        columns => ["fiscal_year","fiscal_period","department","division","merchant","category","transaction_date","amount"]
+    }
+
+}
+
+output {
+    stdout {}
+}
+```
+
+Regarding the `output`, let's leave it as `stdout` so we can check everything is right with the date, this output will just print the documents to the console.
+
+
+
+
+Our folder structure should look something like this:
+
+```
+/elastic-csv
+    pipeline.conf
+    logstash-6.2.4/
+    csv-files/
+        State_Employee_Credit_Card_Transactions.csv
+```
+
+We can go ahead and test the pipeline executing logstash from the command line:
+
+```bash
+./logstash-6.2.4/bin/logstash -f pipeline.conf --debug
+```
+
+Logstash will start reading the file and passing every line through the pipeline
+
+![Logstash output](/images/delaware/ss1.jpg)
+
+# Parsing date and amount correctly
 
 The `date` filter takes a text field and parses it according to a pattern, and uses the resulting date as the document's timestamp field. In our case we have `transaction_date` expressed like "05/20/2016" which would be `"MM/dd/yyyy"`
 
@@ -95,12 +147,11 @@ date {
 }
 ```
 
-### Final pipeline file
-The final pipeline file should look like this
+
 ```ruby
 input {
     file {
-        path => "path/to/State_Employee_Credit_Card_Transactions.csv"
+        path => "path/to/csv-files/State_Employee_Credit_Card_Transactions.csv"
         start_position => "beginning"
         sincedb_path => "NUL"
     }
@@ -131,11 +182,6 @@ filter {
 }
 
 output {
-    stdout {
-        codec => rubydebug
-    }
+    stdout {}
 }
 ```
-
-# Fingerprinting Transactions
-
