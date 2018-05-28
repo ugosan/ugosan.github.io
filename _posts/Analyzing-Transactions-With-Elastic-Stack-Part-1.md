@@ -133,12 +133,40 @@ We can go ahead and test the pipeline executing logstash from the command line:
 ./logstash-6.2.4/bin/logstash -f pipeline.conf --debug
 ```
 
-Logstash will start reading the file and passing every line through the pipeline
+Logstash will start reading the file and passing every line through the pipeline. This is how a document looks like on the output:
+```ruby
+{
+            "@version" => "1",
+             "message" => "2013,1,DEL TECH AND COMM COLLEGE,DTCC - TERRY CAMPUS,VERIZON*ONETIMEPAYMENT,CABLE SATELLITE OTHER PAY TELEVISION RADIO SVCS,06/28/2012,$305.92",
+          "department" => "DEL TECH AND COMM COLLEGE",
+                "host" => "tempo.local",
+            "category" => "CABLE SATELLITE OTHER PAY TELEVISION RADIO SVCS",
+                "path" => "/tmp/transactional-es/State_Employee_Credit_Card_Transactions.csv",
+         "fiscal_year" => "2013",
+              "amount" => "$305.92",
+            "merchant" => "VERIZON*ONETIMEPAYMENT",
+       "fiscal_period" => "1",
+            "division" => "DTCC - TERRY CAMPUS",
+    "transaction_date" => "06/28/2012",
+          "@timestamp" => 2018-05-28T20:18:43.514Z
+}
+```
 
-![Logstash output](/images/delaware/ss1.jpg)
 
 # Parsing date and amount correctly
 
+So the above document has two problems:
+
+* Problem #1 - date is incorrect
+
+The `@timestamp` field on the document shows the **current** timestamp, being the time and date in which the document itself was created, we need it to be the same as `transaction_date` which is `06/28/2012`
+
+* Problem #2 - amount is a string
+
+The `amount` field on the above document is expressed as `"amount" => "$19.00"`, we need to get rid of the `$` otherwise it would not be treated as a number.
+
+
+## `date` filter
 The `date` filter takes a text field and parses it according to a pattern, and uses the resulting date as the document's timestamp field. In our case we have `transaction_date` expressed like "05/20/2016" which would be `"MM/dd/yyyy"`
 
 ```ruby
@@ -147,6 +175,20 @@ date {
 }
 ```
 
+## `mutate` filter
+Lets also remove the `$` character from the amount, so we can work with it as a number, instead of a string.
+
+```ruby
+    mutate {
+        gsub => [
+            "amount", "[\\$]", ""
+        ]
+    }
+```
+
+
+
+## Final pipeline configuration
 
 ```ruby
 input {
@@ -163,14 +205,9 @@ filter {
         columns => ["fiscal_year","fiscal_period","department","division","merchant","category","transaction_date","amount"]
     }
 
-    #using the date in the event as the date 
+    #using the transaction_date in the event as the date 
     date {
         match => [ "transaction_date", "MM/dd/yyyy" ]
-    }
-
-    #removing fields we dont need anymore
-    mutate {
-        remove_field => [ "message", "transaction_date", "host", "path" ]
     }
 
     #removing the $ character from the amount field
@@ -179,9 +216,44 @@ filter {
             "amount", "[\\$]", ""
         ]
     }
+
+    #adding day of week, day of month 
+    #and removing fields we dont need
+    mutate {
+        add_field => {"day_of_week" => "%{+EEEE}"}
+        add_field => {"day_of_month" => "%{+d}"}
+        add_field => {"month" => "%{+MMMM}"}
+        remove_field => [ "message", "transaction_date", "host", "path" ]
+    }
 }
 
 output {
     stdout {}
 }
 ```
+
+Now this pipeline's output shows a much better parsed documents, the `amount` field is correctly recognized as a number, the `@timestamp` field correctly reflects the transaction's date.
+
+![Logstash output](/images/delaware/ss3.jpg)
+
+```ruby
+{
+    "fiscal_period" => "1",
+      "fiscal_year" => "2013",
+       "@timestamp" => 2012-06-26T05:00:00.000Z,
+       "department" => "DEPT OF TRANSPORTATION",
+     "day_of_month" => "26",
+         "category" => "INDUSTRIAL SUPPLIES NOT ELSEWHERE CLASSIFIED",
+            "month" => "June",
+      "day_of_week" => "Tuesday",
+         "merchant" => "WW GRAINGER",
+           "amount" => 22.2,
+         "@version" => "1",
+         "division" => "MAINTENANCE DISTRICTS"
+}
+```
+
+
+# Sending data to Elasticsearch
+
+
