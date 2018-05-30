@@ -5,6 +5,8 @@ title: Analyzing Credit Card Transactions with the Elastic Stack. Part 1 - Inges
 
 In this blog post I'm going to detail all the steps needed to load data from a CSV file into the Elastic Stack, so we can explore it, make visualizations, augment the original data and use more advanced techniques such as machine learning in order to find some possible patterns in the data. 
 
+![Kibana](/images/delaware/ss11.jpg)
+
 * **Part I - Ingesting the data** (You are here)
 * Part II - Graph and other visualizations
 * Part III - Fingerprinting transactions
@@ -338,8 +340,10 @@ Select `@timestamp` as the time field in the next screen and click **Create inde
 Now go to the **Discover** tab and change the time filter to the last 8 years or so and an Auto-refresh of 30 seconds:
 ![Kibana](/images/delaware/ss9.jpg)
 
-We can see the documents being loaded in realtime, at this point we can already start making some visualizations.
+We can see the documents being loaded in realtime, and at this point we can already start making some visualizations, which will be covered in the **next part**.
 
 ![Kibana](/images/delaware/ss10.jpg)
 
 
+
+![Kibana](/images/delaware/ss11.jpg)
