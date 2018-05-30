@@ -3,7 +3,7 @@ layout: post
 title: Analyzing Credit Card Transactions with the Elastic Stack. Part 1 - Ingesting
 ---
 
-In this blog post I'm going to detail all the steps needed to load data from a CSV file into the Elastic Stack, so we can explore it, make visualizations, augment the original data and use more advanced techniques such as machine learning in order to 
+In this blog post I'm going to detail all the steps needed to load data from a CSV file into the Elastic Stack, so we can explore it, make visualizations, augment the original data and use more advanced techniques such as machine learning in order to find some possible patterns in the data. 
 
 * **Part I - Ingesting the data** (You are here)
 * Part II - Graph and other visualizations
@@ -23,8 +23,6 @@ You can choose **Export > CSV** from the portal or if you are on Mac/Linux you c
 ```
 wget https://data.delaware.gov/api/views/nurt-5rqw/rows.csv
 ```
-
-
 
 
 We can see that this dataset has the following headers: `FISCAL_YEAR`, `FISCAL_PERIOD`, `DEPT_NAME`, `DIV_NAME`, `MERCHANT`, `CAT_DESCR`, `TRANS_DT`, `MERCHANDISE_AMT` and about 1 million rows, one for every transaction ranging from 2013 to 2018.
@@ -55,9 +53,9 @@ Our folder structure for this project would look like this:
     State_Employee_Credit_Card_Transactions.csv
 ```
 
-We are going to use Logstash for ingesting the data. Let's download it and put it on our folder. https://artifacts.elastic.co/downloads/logstash/logstash-6.2.4.tar.gz
+We are going to use Logstash for ingesting the data. Let's download it and put it in the same folder. https://artifacts.elastic.co/downloads/logstash/logstash-6.2.4.tar.gz
 
-_Logstash needs a Java runtime to be installed, OpenJDK_
+_Note: Logstash needs a Java runtime to be installed, OpenJDK is fine_
 
 ## Pipeline configuration (`pipeline.conf`)
 ```
@@ -92,10 +90,12 @@ This input will pass along every line of the file through the filters, starting 
 Once we have specificed the `input{}` there are a couple of filters we will use. Let's start with the `csv` filter: we should tell the names of the columns that will become field names of our documents.
 
 ```ruby
-csv {
-    separator => ","
-    columns => ["fiscal_year","fiscal_period","department","division","merchant","category","transaction_date","amount"]
-}
+    csv {
+        separator => ","
+        columns => ["FISCAL_YEAR","FISCAL_PERIOD","DEPT_NAME","DIV_NAME","MERCHANT","CAT_DESCR","TRANS_DT","MERCHANDISE_AMT"]
+        skip_header => true
+    }
+
 ```
 
 
@@ -115,7 +115,8 @@ input {
 filter {
     csv {
         separator => ","
-        columns => ["fiscal_year","fiscal_period","department","division","merchant","category","transaction_date","amount"]
+        columns => ["FISCAL_YEAR","FISCAL_PERIOD","DEPT_NAME","DIV_NAME","MERCHANT","CAT_DESCR","TRANS_DT","MERCHANDISE_AMT"]
+        skip_header => true
     }
 
 }
@@ -138,19 +139,16 @@ We can go ahead and test the pipeline executing logstash from the command line:
 Logstash will start reading the file and passing every line through the pipeline. This is how a document looks like on the output:
 ```ruby
 {
-            "@version" => "1",
-             "message" => "2013,1,DEL TECH AND COMM COLLEGE,DTCC - TERRY CAMPUS,VERIZON*ONETIMEPAYMENT,CABLE SATELLITE OTHER PAY TELEVISION RADIO SVCS,06/28/2012,$305.92",
-          "department" => "DEL TECH AND COMM COLLEGE",
-                "host" => "tempo.local",
-            "category" => "CABLE SATELLITE OTHER PAY TELEVISION RADIO SVCS",
-                "path" => "/tmp/transactional-es/State_Employee_Credit_Card_Transactions.csv",
-         "fiscal_year" => "2013",
-              "amount" => "$305.92",
-            "merchant" => "VERIZON*ONETIMEPAYMENT",
-       "fiscal_period" => "1",
-            "division" => "DTCC - TERRY CAMPUS",
-    "transaction_date" => "06/28/2012",
-          "@timestamp" => 2018-05-28T20:18:43.514Z
+           "DIV_NAME" => "STOCKLEY CENTER",
+        "FISCAL_YEAR" => "2013",
+           "TRANS_DT" => "06/27/2012",
+           "MERCHANT" => "PCI*SAMMONS PRESTON",
+          "CAT_DESCR" => "DENTAL-LAB-MED-OPHTHALMIC HOSP EQUIP SUPPLIES",
+               "host" => "tempo.local",
+         "@timestamp" => 2018-05-30T20:49:57.798Z,
+      "FISCAL_PERIOD" => "1",
+          "DEPT_NAME" => "DEPT OF HEALTH AND SOCIAL SV",
+        "MERCHANDISE_AMT" => "$379.86",
 }
 ```
 
@@ -188,6 +186,22 @@ Lets also remove the `$` character from the amount, so we can work with it as a 
     }
 ```
 
+Lets give the fields more readable names, using the `rename` mutate:
+
+```ruby
+
+    mutate {
+        rename => { "FISCAL_YEAR" => "fiscal_year" }
+        rename => { "FISCAL_PERIOD" => "fiscal_period"}
+        rename => { "DEPT_NAME" => "department"}
+        rename => { "DIV_NAME" => "division" }
+        rename => { "MERCHANT" => "merchant" }
+        rename => { "CAT_DESCR" => "category" }
+        rename => { "TRANS_DT" => "transaction_date"}
+        rename => { "MERCHANDISE_AMT" => "amount"}
+    }
+
+```
 
 
 ## Final pipeline configuration
@@ -205,6 +219,18 @@ filter {
     csv {
         separator => ","
         columns => ["fiscal_year","fiscal_period","department","division","merchant","category","transaction_date","amount"]
+    }
+
+
+    mutate {
+        rename => { "FISCAL_YEAR" => "fiscal_year" }
+        rename => { "FISCAL_PERIOD" => "fiscal_period"}
+        rename => { "DEPT_NAME" => "department"}
+        rename => { "DIV_NAME" => "division" }
+        rename => { "MERCHANT" => "merchant" }
+        rename => { "CAT_DESCR" => "category" }
+        rename => { "TRANS_DT" => "transaction_date"}
+        rename => { "MERCHANDISE_AMT" => "amount"}
     }
 
     #using the transaction_date in the event as the date 
@@ -270,11 +296,50 @@ Click **Create Deployment** and your cluster should be created. Elastic Cloud wi
 
 ![Elastic Cloud](/images/delaware/ss5.jpg)
 
-After the cluster is created, copy  you might check two endpoints
+After the cluster is created, open it up and copy the Elasticsearch endpoint
 
 
-![Elastic Cloud](/images/delaware/ss6.jpg)
+![Elastic Endpoints](/images/delaware/ss6.jpg)
 
 ## Back to our `pipeline.conf`
 
-We have created our
+We have now created our cluster, lets add `elasticsearch` as an output in our pipeline configuration, setting `demos-delaware` as the index we are going to write to and using `elastic` as the user:
+
+```ruby
+output {
+    stdout {}
+    
+    elasticsearch {
+        hosts => "https://38d7e6df573a4b9d83642761ae5cd095.europe-west1.gcp.cloud.es.io:9243"
+        index => "demos-delaware"
+        user => "elastic"
+        password => "ELFBX8KhrgUlxbmqA2hjrsqj"
+    }
+}
+```
+
+
+Let's execute the pipeline again from the command line and in a couple of minutes we should be able to see the data in our Elasticsearch:
+
+```bash
+./logstash-6.2.4/bin/logstash -f pipeline.conf --debug
+```
+
+## Visualizing with Kibana
+Open up the Kibana endpoint using the link we have displayed in [Endpoints](elastic-endpoints). Go to **Management > Index Patterns** and put `demos-delaware` as the index pattern.
+
+![Kibana](/images/delaware/ss7.jpg)
+
+Select `@timestamp` as the time field in the next screen and click **Create index pattern**.
+
+![Kibana](/images/delaware/ss8.jpg)
+
+
+Now go to the **Discover** tab and change the time filter to the last 8 years or so and an Auto-refresh of 30 seconds:
+![Kibana](/images/delaware/ss9.jpg)
+
+We can see the documents being loaded in realtime, at this point we can already start making some visualizations.
+
+![Kibana](/images/delaware/ss10.jpg)
+
+
