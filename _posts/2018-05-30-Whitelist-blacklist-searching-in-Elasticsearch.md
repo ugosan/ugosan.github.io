@@ -1,4 +1,8 @@
 
+---
+layout: post
+title: Whitelist / Blacklist searching in Elasticsearch
+---
 
 How do we match thousands of documents against a dynamic whitelist/blacklist in Elasticsearch?
 
