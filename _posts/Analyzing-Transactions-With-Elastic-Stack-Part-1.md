@@ -45,11 +45,21 @@ FISCAL_YEAR,FISCAL_PERIOD,DEPT_NAME,DIV_NAME,MERCHANT,CAT_DESCR,TRANS_DT,MERCHAN
 
 # Ingesting a CSV with Logstash
 
+
+Our folder structure for this project would look like this:
+
+```
+/elastic-csv
+    pipeline.conf    
+    logstash-6.2.4/
+    State_Employee_Credit_Card_Transactions.csv
+```
+
 We are going to use Logstash for ingesting the data. Let's download it and put it on our folder. https://artifacts.elastic.co/downloads/logstash/logstash-6.2.4.tar.gz
 
 _Logstash needs a Java runtime to be installed, OpenJDK_
 
-## Pipeline configuration
+## Pipeline configuration (`pipeline.conf`)
 ```
 input {}
 
@@ -66,12 +76,15 @@ The `file` input stream events from files, normally by tailing them in a manner 
 ```ruby
 input {
     file {
-        path => "path/to/csv-files/State_Employee_Credit_Card_Transactions.csv"
+        path => "path/to/State_Employee_Credit_Card_Transactions.csv"
         start_position => "beginning"
         sincedb_path => "NUL"
     }
 }
 ```
+
+_note: the `path` must be absolute_
+
 
 This input will pass along every line of the file through the filters, starting from the `beggining`. Logstash also keeps track of the last processed line in the csv, writing a log file specified in `sincedb_path`. We are probably going to be testing and debugging the pipeline, so want to set it to `NUL` to start afresh every time. 
 
@@ -115,17 +128,6 @@ output {
 Regarding the `output`, let's leave it as `stdout` so we can check everything is right with the date, this output will just print the documents to the console.
 
 
-
-
-Our folder structure should look something like this:
-
-```
-/elastic-csv
-    pipeline.conf
-    logstash-6.2.4/
-    csv-files/
-        State_Employee_Credit_Card_Transactions.csv
-```
 
 We can go ahead and test the pipeline executing logstash from the command line:
 
@@ -234,7 +236,7 @@ output {
 
 Now this pipeline's output shows a much better parsed documents, the `amount` field is correctly recognized as a number, the `@timestamp` field correctly reflects the transaction's date.
 
-![Logstash output](/images/delaware/ss3.jpg)
+> ![Logstash output](/images/delaware/ss3.jpg)
 
 ```ruby
 {
@@ -254,6 +256,18 @@ Now this pipeline's output shows a much better parsed documents, the `amount` fi
 ```
 
 
-# Sending data to Elasticsearch
+# Sending data to Elastic Cloud
+
+There are multiple ways to have this data stored so we can visualize it. 
+
+Lets use Elastic Cloud, you can create a 14-day trial account at https://cloud.elastic.co/ and create an Elasticsearch cluster in seconds.
+
+Give it a name to your deployment and select the smallest size (1GB) and 1 availability zone. 
+> ![Elastic Cloud](/images/delaware/ss4.jpg)
+
+Click **Create Deployment** and your cluster should be created. Elastic Cloud will show you the password for the `elastic` user, which is the one we will use to receive the data from our Logstash.
+
+
+> ![Elastic Cloud](/images/delaware/ss5.jpg)
 
 
