@@ -18,7 +18,7 @@ We are going to use an open dataset from State of Delaware called **State Employ
 
 ![State of Delaware's Open Data Portal (https://data.delaware.gov/)](/images/delaware/portal.jpg)
 
-According to Delaware's Open Data portal this data set contains the : "Purchasing cards are used by employees within the Organization to purchase goods/services that are needed for business. These cards should also be used for registering travelers for conferences."
+According to Delaware's Open Data portal: "Purchasing cards are used by employees within the Organization to purchase goods/services that are needed for business. These cards should also be used for registering travelers for conferences."
 
 ## Downloading the dataset
 You can choose **Export > CSV** from the portal or if you are on Mac/Linux you can download it directly using wget:
@@ -55,11 +55,14 @@ Our folder structure for this project would look like this:
     State_Employee_Credit_Card_Transactions.csv
 ```
 
-We are going to use Logstash for ingesting the data. Let's download it and put it in the same folder. https://artifacts.elastic.co/downloads/logstash/logstash-6.2.4.tar.gz
+We are going to use Logstash for ingesting the data. Let's download it and put it in this same folder. https://artifacts.elastic.co/downloads/logstash/logstash-6.2.4.tar.gz
 
 _Note: Logstash needs a Java runtime to be installed, OpenJDK is fine_
 
 ## Pipeline configuration (`pipeline.conf`)
+
+The Logstash [event processing pipeline](https://www.elastic.co/guide/en/logstash/current/pipeline.html) has three stages: inputs → filters → outputs. Inputs generate events, filters modify them, and outputs ship them elsewhere. Inputs and outputs support codecs that enable you to encode or decode the data as it enters or exits the pipeline without having to use a separate filter. 
+
 ```
 input {}
 
