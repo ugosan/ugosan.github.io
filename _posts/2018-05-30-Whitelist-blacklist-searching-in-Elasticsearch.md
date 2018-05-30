@@ -1,4 +1,3 @@
-
 ---
 layout: post
 title: Whitelist / Blacklist searching in Elasticsearch
