@@ -236,7 +236,7 @@ output {
 
 Now this pipeline's output shows a much better parsed documents, the `amount` field is correctly recognized as a number, the `@timestamp` field correctly reflects the transaction's date.
 
-> ![Logstash output](/images/delaware/ss3.jpg)
+![Logstash output](/images/delaware/ss3.jpg)
 
 ```ruby
 {
@@ -263,11 +263,18 @@ There are multiple ways to have this data stored so we can visualize it.
 Lets use Elastic Cloud, you can create a 14-day trial account at https://cloud.elastic.co/ and create an Elasticsearch cluster in seconds.
 
 Give it a name to your deployment and select the smallest size (1GB) and 1 availability zone. 
-> ![Elastic Cloud](/images/delaware/ss4.jpg)
+![Elastic Cloud](/images/delaware/ss4.jpg)
 
-Click **Create Deployment** and your cluster should be created. Elastic Cloud will show you the password for the `elastic` user, which is the one we will use to receive the data from our Logstash.
-
-
-> ![Elastic Cloud](/images/delaware/ss5.jpg)
+Click **Create Deployment** and your cluster should be created. Elastic Cloud will show you the password for the `elastic` user, which is the one we will use to receive the data from our Logstash. 
 
 
+![Elastic Cloud](/images/delaware/ss5.jpg)
+
+After the cluster is created, copy  you might check two endpoints
+
+
+![Elastic Cloud](/images/delaware/ss6.jpg)
+
+## Back to our `pipeline.conf`
+
+We have created our
