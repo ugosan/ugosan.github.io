@@ -81,7 +81,7 @@ input {
     file {
         path => "path/to/State_Employee_Credit_Card_Transactions.csv"
         start_position => "beginning"
-        sincedb_path => "NUL"
+        sincedb_path => "/dev/null"
     }
 }
 ```
@@ -89,7 +89,7 @@ input {
 _note: the `path` must be absolute_
 
 
-This input will pass along every line of the file through the filters, starting from the `beggining`. Logstash also keeps track of the last processed line in the csv, writing a log file specified in `sincedb_path`. We are probably going to be testing and debugging the pipeline, so want to set it to `NUL` to start afresh every time. 
+This input will pass along every line of the file through the filters, starting from the `beggining`. Logstash also keeps track of the last processed line in the csv, writing a log file specified in `sincedb_path`. We are probably going to be testing and debugging the pipeline, so want to set it to `/dev/null` to start afresh every time. 
 
 ### The `csv` filter
 Once we have specificed the `input{}` there are a couple of filters we will use. Let's start with the `csv` filter: we should tell the names of the columns that will become field names of our documents.
@@ -113,7 +113,7 @@ input {
     file {
         path => "path/to/csv-files/State_Employee_Credit_Card_Transactions.csv"
         start_position => "beginning"
-        sincedb_path => "NUL"
+        sincedb_path => "/dev/null"
     }
 }
 
@@ -216,7 +216,7 @@ input {
     file {
         path => "path/to/csv-files/State_Employee_Credit_Card_Transactions.csv"
         start_position => "beginning"
-        sincedb_path => "NUL"
+        sincedb_path => "/dev/null"
     }
 }
 
