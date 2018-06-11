@@ -253,6 +253,7 @@ filter {
     #adding day of week, day of month 
     #and removing fields we dont need
     mutate {
+        convert => ["amount", "float"]
         add_field => {"day_of_week" => "%{+EEEE}"}
         add_field => {"day_of_month" => "%{+d}"}
         add_field => {"month" => "%{+MMMM}"}
