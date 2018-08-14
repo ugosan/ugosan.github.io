@@ -43,7 +43,8 @@ On elasticsearch config finally: `/etc/elasticsearch/elasticsearch.yml` you shou
 ```bash
 bootstrap.memory_lock: true
 ```
-Thats it, restart your node and the RAM will be locked, you should notice a major performance improvement.
+
+Thats it, restart your node and the RAM will be locked.
 
 
   [1]: https://www.elastic.co/guide/en/elasticsearch/guide/current/heap-sizing.html
