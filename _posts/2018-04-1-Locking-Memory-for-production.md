@@ -49,3 +49,6 @@ Thats it, restart your node and the RAM will be locked, you should notice a majo
   [1]: https://www.elastic.co/guide/en/elasticsearch/guide/current/heap-sizing.html
 
 
+
+
+![](/images/termtosvg/termtosvg_n4jmcq9i.svg)

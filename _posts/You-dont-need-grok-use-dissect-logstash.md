@@ -1,11 +1,5 @@
 
 
-<p align="center">
-    <img src="https://ugosan.github.io/images/termtosvg/termtosvg_n4jmcq9i.svg">
-</p>
-
-![](/images/termtosvg/termtosvg_n4jmcq9i.svg)
-
 It is useful sometimes to have day of week and day of month in fields that are separate from the `@timestamp` so we can make aggregations or even machine learning jobs to find a potential correlation between your events and weekdays.
 
 In Logstash you can add the following to your pipeline:
