@@ -6,10 +6,10 @@
 name: ugosan
 
 # Short bio or description (displayed in the header)
-description: blog
+description: notes you might find useful
 
 # URL of your avatar or profile pic (you could use your GitHub profile pic)
-avatar: https://raw.githubusercontent.com/ugosan/ugosan.github.io/master/images/prompt-logo.png
+avatar: https://raw.githubusercontent.com/ugosan/ugosan.github.io/master/images/git-commit.svg
 
 #
 # Flags below are optional
