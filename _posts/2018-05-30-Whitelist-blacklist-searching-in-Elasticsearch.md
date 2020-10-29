@@ -3,7 +3,7 @@ layout: post
 title: Whitelist / Blacklist searching in Elasticsearch
 ---
 
-How do we match thousands of documents against a dynamic whitelist/blacklist in Elasticsearch?
+How do we match a large number of documents against a dynamic whitelist/blacklist in Elasticsearch?
 
 You can use the [terms query](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-terms-query.html)
 
