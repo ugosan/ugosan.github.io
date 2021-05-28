@@ -1,3 +1,8 @@
+.highlight {
+  padding: 2px 2px 2px 5px;
+  /*! overflow: scroll; */
+  font-size: 14px;
+}
 .highlight code, .highlight pre {
   color:#fdce93;
   background-color:#3f3f3f;
