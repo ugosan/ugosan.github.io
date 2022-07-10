@@ -28,7 +28,7 @@ Copy the file from within the container to an outside folder, this is to be shar
     
   - Full docker compose example:
   ```YML
-    logstash-example:
+    logstash:
       image: docker.elastic.co/logstash/logstash:8.2.3
       volumes:
         # - ...
