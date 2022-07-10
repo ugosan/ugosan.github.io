@@ -29,11 +29,7 @@ Copy the file from within the container to an outside folder, this is to be shar
   - Full docker compose example:
   ```YML
   logstash-example:
-    image: docker.elastic.co/logstash/logstash:7.8.1
-    hostname: logstash-example
-    user: root
-    network_mode: host
-    restart: always
+    image: docker.elastic.co/logstash/logstash:8.2.3
     volumes:
       # - ...
       - ${PWD}/keystore/logstash.keystore:/usr/share/logstash/config/logstash.keystore
