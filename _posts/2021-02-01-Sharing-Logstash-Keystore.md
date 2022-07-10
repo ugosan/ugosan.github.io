@@ -22,9 +22,9 @@ Copy the file from within the container to an outside folder, this is to be shar
   - To use the keystore in a container you should pass: 
     - the keystore file as a volume:
       ```
-      ${PWD}/keystore/logstash.keystore:/usr/share/logstash/config/logstash.keystore`) 
+      ${PWD}/keystore/logstash.keystore:/usr/share/logstash/config/logstash.keystore` 
       ```
-    - and the keystore master password as an environment variable: `LOGSTASH_KEYSTORE_PASSWORD`):
+    - and the keystore master password as an environment variable: <kbd>`LOGSTASH_KEYSTORE_PASSWORD`</kbd>:
     
   - Full docker compose example:
   ```YML
