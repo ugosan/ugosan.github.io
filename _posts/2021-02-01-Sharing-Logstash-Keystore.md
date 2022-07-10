@@ -9,12 +9,24 @@ Create the keystore in one of the containers:
 docker-compose exec logstash-example /usr/share/logstash/bin/logstash-keystore create
 ```
 
-Copy the file from within the container to an outside folder, to be shared with the rest of the containers
+Copy the file from within the container to an outside folder, this is to be shared with the rest of the containers
   - To add a new key, just execute in any of the containers:
-    - `docker-compose exec logstash-example /usr/share/logstash/bin/logstash-keystore add ES_PWD`
-    - Confirm it was created with `docker-compose exec logstash-example /usr/share/logstash/bin/logstash-keystore list`
+  ```
+    docker-compose exec logstash-example /usr/share/logstash/bin/logstash-keystore add ES_PWD
+  ```
+  - Confirm the keystore was created with 
+  ```
+    docker-compose exec logstash-example /usr/share/logstash/bin/logstash-keystore list
+  ```
 
-  - To use the keystore in a container, just pass the keystore file as a volume (`- ${PWD}/keystore/logstash.keystore:/usr/share/logstash/config/logstash.keystore`) and the keystore master password as an environment variable (`LOGSTASH_KEYSTORE_PASSWORD`):
+  - To use the keystore in a container you should pass: 
+    - the keystore file as a volume:
+      ```
+      ${PWD}/keystore/logstash.keystore:/usr/share/logstash/config/logstash.keystore`) 
+      ```
+    - and the keystore master password as an environment variable: `LOGSTASH_KEYSTORE_PASSWORD`):
+    
+  - Full docker compose example:
   ```YML
   logstash-example:
     image: docker.elastic.co/logstash/logstash:7.8.1
