@@ -8,19 +8,19 @@ It is useful sometimes to have day of week and day of month in fields that are s
 In Logstash you can add the following to your pipeline:
 
 ```ruby
-    input {...}
-    
-    filter {
+input {...}
 
-        date {...} #your timestamp
+filter {
 
-        mutate {
-            add_field => {"[day_of_week]" => "%{+EEE}"}
-            add_field => {"[day_of_month]" => "%{+d}"}
-        }
+    date {...} #your timestamp
+
+    mutate {
+        add_field => {"[day_of_week]" => "%{+EEE}"}
+        add_field => {"[day_of_month]" => "%{+d}"}
     }
-    
-    output {...}
+}
+
+output {...}
 ```
 
 The result is that Logstash will extract the values from the current `@timestamp` using [the same syntax used in the `date` filter](https://www.elastic.co/guide/en/logstash/current/plugins-filters-date.html#plugins-filters-date-match). 

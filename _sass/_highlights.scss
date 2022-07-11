@@ -38,6 +38,7 @@ code {
   .highlight .gd {
   color:#cd0000;
   }
+
   
   .highlight .ge {
   color:#ccc;
@@ -140,7 +141,11 @@ code {
   .highlight .na,.preview-zenburn .highlight .nt {
   color:#738e75;
   }
-  
+   
+  .highlight .n, .highlight .o {
+    color:#48243c;
+    } 
+    
   .highlight .nb,.preview-zenburn .highlight .nc,.preview-zenburn .highlight .nf,.preview-zenburn .highlight .bp,.preview-zenburn .highlight .vc {
   color:#7f4c80;
   }
