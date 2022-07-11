@@ -1,1 +1,4 @@
-js/.DS_Store
+.DS_Store
+_site
+.sass-*
+Gemfile.lock

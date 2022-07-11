@@ -9,6 +9,7 @@
 .kwd{color:#93C763;}
 .com{color:#66747B;}
 .typ{color:#678CB1;}
+.nb{color:#678CB1;}
 .lit{color:#FACD22;}
 .pun{color:#F1F2F3;}
 .pln{color:#F1F2F3;}
@@ -32,4 +33,5 @@ li.L1, li.L3, li.L5, li.L7, li.L9{background:#111;}
     .tag{color:#006;font-weight:bold;}
     .atn{color:#404;}
     .atv{color:#060;}
+    .nb{color:#678CB1;}
 }
