@@ -35,7 +35,6 @@ h1, h2, h3, h4, h5, h6 {
   color: $darkerGray;
   font-weight: bold;
 
-  line-height: 1.7;
   margin: 1em 0 15px;
   padding: 0;
 
@@ -127,6 +126,16 @@ strong, b {
 img {
   max-width:100%;
   
+}
+
+pre {
+  background: #f8f8f8;
+  border-radius:5px;
+  border:1px solid #e5e5e5;
+  overflow-x: auto;
+  border: 1px solid;
+  padding: 5px;
+  font-size: 15px;
 }
 
 // Fixes images in popup boxes from Google Translate
