@@ -3,7 +3,7 @@ layout: post
 title: Too many fields! 3 ways to prevent mapping explosion in Elasticsearch
 ---
 
-This blog was originally published as an [Elastic Blog](https://www.elastic.co/blog/3-ways-to-prevent-mapping-explosion-in-elasticsearch)
+This blog was originally published as an  [Elastic Blog](https://www.elastic.co/blog/3-ways-to-prevent-mapping-explosion-in-elasticsearch)
 
 <!-- The script tag should live in the head of your page if at all possible -->
 <script type="text/javascript" async src="https://play.vidyard.com/embed/v4.js"></script>
@@ -20,7 +20,7 @@ This blog was originally published as an [Elastic Blog](https://www.elastic.co/b
 
 Sometimes we don't have control over what types of logs we receive in our cluster. Think of a log analytics provider that has a specific budget for storing its customers’ logs and needs to keep storage at bay (Elastic deals with many similar cases in Consulting). 
 
-More often than not, we have customers indexing fields "just in case" they need to be used for search. If that is the case for you, then the following techniques should prove to be valuable in helping you cut costs and focus your cluster performance on what really matters.
+<mark> More often than not, we have customers indexing fields "just in case" they need to be used for search.</mark> If that is the case for you, then the following techniques should prove to be valuable in helping you cut costs and focus your cluster performance on what really matters.
 
 Let's first outline the problem. Consider the following JSON document with three fields: message, transaction.user, transaction.amount:
 
@@ -72,7 +72,7 @@ POST dynamic-mapping-test/_doc
 }
 ```
 
-A GET dynamic-mapping-test/_mapping will show us the resulting new mapping for the index. It now has transaction.field3 as both text and keyword — actually two new fields.
+A `GET dynamic-mapping-test/_mapping` will show us the resulting new mapping for the index. It now has `transaction.field3` as both text and keyword — actually two new fields.
 
 ```js
 {

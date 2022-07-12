@@ -25,8 +25,8 @@ Copy the file from within the container to an outside folder, this is to be shar
       ${PWD}/keystore/logstash.keystore:/usr/share/logstash/config/logstash.keystore
       ```
     - and the keystore master password as the environment variable ```LOGSTASH_KEYSTORE_PASSWORD``` :
-    
-### Full docker compose example:
+ 
+<mark> Full docker compose example </mark>
 
   ```yaml
   logstash:
