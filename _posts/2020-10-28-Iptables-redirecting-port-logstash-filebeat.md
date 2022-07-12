@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Need to bind Logstash/Filebeat to a port below 1000? Try iptables REDIRECT.
+excerpt: redirect the priviledged port to a higher port
 ---
 
 When using Logstash or Filebeat, sometimes we need to listen to a priviledged port (lower than 1000), for instance when listening to syslog in port 514 and we can't change the source port for whatever reason.
