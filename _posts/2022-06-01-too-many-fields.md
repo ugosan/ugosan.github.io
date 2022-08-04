@@ -13,8 +13,8 @@ This blog was originally published as an  [Elastic Blog](https://www.elastic.co/
 <img
   style="width: 100%; margin: auto; display: block;"
   class="vidyard-player-embed"
-  src="https://play.vidyard.com/PEeqNh9r68AtRiikvxV6zG.jpg"
-  data-uuid="PEeqNh9r68AtRiikvxV6zG"
+  src="https://videos.elastic.co/watch/rUsHyEWtUMDTUZvywNCJdC.jpg"
+  data-uuid="rUsHyEWtUMDTUZvywNCJdC"
   data-v="4"
   data-type="inline"
 />
