@@ -7,7 +7,7 @@ A common error people face when putting an Elasticsearch cluster to production h
 
 Here is what I have done to lock the memory on Elasticsearch nodes. This procedure will work in any distribution that use **systemd**.
  
-1) Override the elasticsearch service 
+<mark>1)</mark> Override the elasticsearch service 
  
 ```
 systemctl edit elasticsearch
@@ -19,15 +19,24 @@ Then add the following and save:
 LimitMEMLOCK=infinity
 ```
 
-2) Reload the service and start Elasticsearch
+
+<mark>2)</mark> Check the elasticsearch.yml file
+
+Make sure your `elasticsearch.yml` has the following config:
+```
+bootstrap.memory_lock: true
+```
+
+
+<mark>3)</mark> Reload the service and start Elasticsearch
+
+
 ```
 systemctl daemon-reload
 service elasticsearch restart
 ```
 
+Thats it, check the status of the node with `service elasticsearch status`
 
-Thats it, restart your node and the RAM will be locked.
 
-
-  [1]: https://www.elastic.co/guide/en/elasticsearch/guide/current/heap-sizing.html
 
