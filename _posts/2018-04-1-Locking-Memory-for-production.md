@@ -36,7 +36,7 @@ systemctl daemon-reload
 service elasticsearch restart
 ```
 
-Thats it, check the status of the node with `service elasticsearch status`
+Thats it, the RAM should now be locked. Its also a good idea to disable swap
 
 
 
