@@ -138,7 +138,7 @@ We would be wasting RAM and disk space to store those fields, as data structures
 
 One of the first steps we take in consulting when asked to optimize an index is to inspect the usage of every field in an index to see which ones are really searched and which ones are just wasting resources.
 
-# Strategy #1: Being strict
+## Strategy #1: Being strict
 
 If we want to have complete control over the structure of the logs we store in Elasticsearch and how we store them, we can set a clear mapping definition so anything that deviates from what we want is simply not stored. 
 
@@ -202,7 +202,7 @@ POST dynamic-mapping-test/_doc
 
 If you are absolutely sure you just want to store what is in the mappings, this strategy forces the sender to comply with the pre-defined mapping.
 
-# Strategy #2: Not too strict
+## Strategy #2: Not too strict
 
 We can be a little bit more flexible and let documents pass, even if they are not exactly how we expect, by using `"dynamic": "false"`.
 
@@ -259,7 +259,7 @@ PUT dynamic-mapping-disabled
 }
 ```
 
-# Strategy #3: Runtime Fields
+## Strategy #3: Runtime Fields
 
 Elasticsearch supports both schema on read and schema on write, each with its caveats. With `dynamic:runtime`, the new fields will be added to the mapping as Runtime Fields. We index the fields that are specified in the mapping and make the extra fields searchable/aggregatable only at query time. In other words, we don't waste RAM up front on the new fields, but we pay the price of a slower query response, as the data structures will be built at run time.
 
@@ -420,7 +420,7 @@ Result:
 
 Great! It's easy to see how this strategy could be useful when you don't know what type of documents you are going to ingest, so using Runtime Fields sounds like a conservative approach with a nice tradeoff between performance and mapping complexity.
 
-# Note on using Kibana and Runtime Fields
+### Note on using Kibana and Runtime Fields
 
 Keep in mind that if we don't specify a field when searching on Kibana using its search bar, (for example, just typing `"hello"` instead of `"message: hello"`,that search will match all fields, and that includes all runtime fields we have declared. You probably don't want this behavior, so our index must use the dynamic setting `index.query.default_field`. Set it to be all or some of our mapped fields, and leave the runtime fields to be queried explicitly (e.g., `"transaction.field3: hey"`).
 
@@ -460,7 +460,7 @@ PUT dynamic-mapping-runtime
 }
 ```
 
-# Choosing the best strategy
+## Choosing the best strategy
 
 Each strategy has its own advantages and disadvantages, so the best strategy will ultimately depend on your specific use case. Below is a summary to help you make the right choice for your needs:
 

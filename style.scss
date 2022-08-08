@@ -54,6 +54,7 @@ h2 {
   font-size: 24px;
 }
 
+
 h3 {
   font-size: 20px;
 }
@@ -121,6 +122,12 @@ strong, b {
     text-shadow:0 1px 0 #fff;
     line-height:1.4;
     white-space:nowrap;
+}
+
+.header img{
+  border: 0px;
+  padding: 0;
+  border-radius: 0;
 }
 
 img {
