@@ -6,6 +6,8 @@ excerpt: More often than not, we have customers indexing fields "just in case" t
 
 Latest developments in Beats, Elastic Agent and Logstash now include a new parameter that makes easier to trust a self-signed certificate, we would just need <mark>A HEX encoded SHA-256 of a CA certificate</mark>. 
 
+## Getting the fingerprint from a server
+
 We can get this fingerprint by simply using `openssl` and connecting to the server you want to extract the fingerprint:
 
 ```
@@ -17,7 +19,9 @@ openssl s_client \
   sed 's/://g'  
 ```
 
-Or, ff you have an actual certificate file for the CA you can just load it:
+## Getting the fingerprint from a file
+
+if you have an actual certificate file for the CA you can just load it:
 
 ```
  openssl x509 -in ca_file.pem -sha256 -fingerprint | grep SHA256 | sed 's/://g'
