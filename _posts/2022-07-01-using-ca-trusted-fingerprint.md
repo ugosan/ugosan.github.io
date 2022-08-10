@@ -1,7 +1,7 @@
 ---
 layout: post
 title: How to get and use the Root CA Certificate Fingerprint in the Elastic Stack
-excerpt: More often than not, we have customers indexing fields "just in case" they need to be used for search.
+excerpt: We need a HEX encoded SHA-256 of a CA certificate to use `ca_trusted_fingerprint`
 ---
 
 Latest developments in Beats, Elastic Agent and Logstash now include a new parameter that makes easier to trust a self-signed certificate, we would just need <mark>A HEX encoded SHA-256 of a CA certificate</mark>. 

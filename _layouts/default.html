@@ -51,24 +51,57 @@
         </footer>
       </div>
     </div>
-  <!-- Global site tag (gtag.js) - Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-6157705-6"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-6157705-6"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
 
-    gtag('config', 'UA-6157705-6');
-  </script>
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
 
-  <script src="https://cdn.jsdelivr.net/npm/anchor-js/anchor.min.js"></script>
-  <script>
-    anchors.options = {
-      placement: 'right',
-      visible: 'always'
-    };
-    anchors.add();
-  </script>
+      gtag('config', 'UA-6157705-6');
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/anchor-js/anchor.min.js"></script>
+    <script>
+      anchors.options = {
+        placement: 'left',
+        visible: 'always'
+      };
+      anchors.add();
+    </script>
+
+    <script>
+      const copyButtonLabel = "⧉";
+
+      let blocks = document.querySelectorAll("pre");
+
+      blocks.forEach((block) => {
+        // only add button if browser supports Clipboard API
+        if (navigator.clipboard) {
+          let button = document.createElement("button");
+          button.innerText = copyButtonLabel;
+          button.addEventListener("click", copyCode);
+          block.appendChild(button);
+        }
+      });
+
+      async function copyCode(event) {
+        const button = event.srcElement;
+        const pre = button.parentElement;
+        let code = pre.querySelector("code");
+        let text = code.innerText;
+        await navigator.clipboard.writeText(text);
+
+        button.innerText = "✓ Copied";
+
+        setTimeout(() => {
+          button.innerText = copyButtonLabel;
+        }, 1000)
+      }
+    </script>
 
   </body>
 
