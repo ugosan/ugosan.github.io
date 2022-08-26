@@ -4,6 +4,8 @@ title: My Tmux Configuration
 excerpt: I love tmux
 ---
 
+<kbd><img src="/images/2022-08-26-15-11-10.png" width="100%"></kbd>
+
 This is my `.tmux.conf` configuration:
 
 ```bash
