@@ -32,7 +32,15 @@ POST /_security/api_key
   "name": "logstash",   
   "role_descriptors": { 
     "my_role": {
-      "cluster": ["manage_pipeline"]
+      "cluster": ["monitor" ,"manage_logstash_pipelines"]
+    },
+    "my_write_role": {
+      "index": [
+        {
+          "names": ["logs-*"],
+          "privileges": ["all"]
+        }
+      ]
     }
   }
 }
@@ -45,6 +53,9 @@ The response will have the `encoded` field, copy it:
   "encoded": "RlNXaEU0TUJXQWVtRnlHU3p6d0o6STkzVE9yX1RSTy03TGdiMHU5YWlZZw=="
 }
 ```
+
+Note that we are defining two roles `my_role` which allows Logstash to fetch the pipeline definitions from Elasticsearch and `my_write_role` which will allow us to write to a datastream from our output.
+
 ## <mark> Secret </mark>
 
 Next, we need to create a Kubernetes Secret with our API key, paste the value from the `encoded` field to a variable we are calling `ELASTICSEARCH_API_KEY`:
@@ -254,7 +265,7 @@ data:
     http.host: "0.0.0.0"
     log.level: info
     xpack.management.enabled: true
-    xpack.management.elasticsearch.hosts: ["https://blog-dev.es.us-east-1.aws.found.io:443"]  
+    xpack.management.elasticsearch.hosts: ["https://my-cluster.es.us-east-1.aws.found.io:443"]  
     xpack.management.elasticsearch.api_key: "${ELASTICSEARCH_API_KEY}"
     xpack.management.logstash.poll_interval: 5s
     xpack.management.pipeline.id: ["my-pipeline-*"]
