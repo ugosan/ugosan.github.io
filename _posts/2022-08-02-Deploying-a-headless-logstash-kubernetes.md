@@ -191,10 +191,16 @@ input {
 filter { }
 
 output {
-  elasticsearch {
-    ...
-  }
-}   
+    elasticsearch {
+        hosts => "https://my-cluster.es.us-east-1.aws.found.io:443"
+        ssl => true
+        api_key => "${ELASTICSEARCH_API_KEY}"
+        data_stream => true
+        data_stream_type => "logs"
+        data_stream_dataset => "my-datastream"
+        data_stream_namespace => "dev"
+    }
+}
 
 ```
 
