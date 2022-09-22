@@ -23,8 +23,11 @@ We are then going to create a Secret to store credentials, a ConfigMap to config
 
 
 ## <mark> Elasticsearch API Key </mark>
-We first need to create an [API Key](https://www.elastic.co/guide/en/elasticsearch/reference/current/security-api-create-api-key.html)
- so Logstash can communicate to Elasticsearch to fetch pipeline definitions. Open up Kibana and then run the following command:
+We first need to create an [API Key](https://www.elastic.co/guide/en/elasticsearch/reference/current/security-api-create-api-key.html) so Logstash can communicate to Elasticsearch to fetch pipeline definitions. 
+ 
+Let's define two roles: `my_role` which allows Logstash to fetch the pipeline definitions from Elasticsearch and `my_write_role` which will allow us to write to a datastream from our output. Those could be two different API Keys, but we are using just one to keep it simple.
+
+ Open up Kibana and then run the following command:
 
 ```js
 POST /_security/api_key
@@ -54,7 +57,7 @@ The response will have the `encoded` field, copy it:
 }
 ```
 
-Note that we are defining two roles `my_role` which allows Logstash to fetch the pipeline definitions from Elasticsearch and `my_write_role` which will allow us to write to a datastream from our output.
+
 
 ## <mark> Secret </mark>
 
