@@ -11,9 +11,13 @@ excerpt: Deploying Logstash in Kubernetes with Centralized Pipeline Management
 
 A "headless" Logstash is a Logstash that doesnt contain any pipeline logic in itself, instead it will fetch the pipelines definitions from a <mark> centralized location</mark> (Elasticsearch itself), so we can create our ETL pipelines through Kibana and deploy them automatically to several Logstash instances. This feature is called [Centralized Pipeline Management](https://www.elastic.co/guide/en/logstash/current/logstash-centralized-pipeline-management.html).
 
+<div class="premonition info">
+  <i class="premonition pn-info"></i>
+  <div class="content">
+    <p class="header">TLDR</p><p>Jump to the full Kubernetes <a href="#all-in-one-manifest">manifest file here</a></p>
+  </div>
+</div>
 
-> info "TLDR"
-> Jump to the full Kubernetes [manifest file here](#all-in-one-manifest)
 
 We are then going to create a Secret to store credentials, a ConfigMap to configure Logstash, a Deployment that will expose some container ports and finally a Service so Logstash is reachable from the outside. 
 
