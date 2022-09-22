@@ -126,6 +126,10 @@ b {
   white-space: nowrap;
 }
 
+.header {
+  margin-top: 10px;
+}
+
 .header img {
   border: 0px;
   padding: 0;
@@ -399,3 +403,4 @@ button:hover {
 // ... Otherwise it really bloats up the top of the CSS file and makes it difficult to find the start
 @import "highlights";
 @import "svg-icons";
+@import "premonition";
