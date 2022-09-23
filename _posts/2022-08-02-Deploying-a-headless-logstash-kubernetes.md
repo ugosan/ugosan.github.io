@@ -6,7 +6,19 @@ excerpt: Deploying Logstash in Kubernetes with Centralized Pipeline Management
 
 <div class="header">
 
-<img src="https://images.pexels.com/photos/2569842/pexels-photo-2569842.jpeg?auto=compress&cs=tinysrgb&h=450&dpr=2&fit=crop"/>
+<!-- The script tag should live in the head of your page if at all possible -->
+<script type="text/javascript" async src="https://play.vidyard.com/embed/v4.js"></script>
+
+<!-- Put this wherever you would like your player to appear -->
+<img
+  style="width: 100%; margin: auto; display: block;"
+  class="vidyard-player-embed"
+  src="https://play.vidyard.com/b9RX6iApHo2jphdtsRrnii.jpg"
+  data-uuid="b9RX6iApHo2jphdtsRrnii"
+  data-v="4"
+  data-type="inline"
+/>
+
 </div>
 
 Top 2 reasons to deploy Logstash on Kubernetes:
@@ -245,7 +257,7 @@ spec:
     spec:
       containers:
       - name: logstash
-        image: docker.elastic.co/logstash/logstash:8.3.3
+        image: docker.elastic.co/logstash/logstash:8.4.2
         ports:
         - containerPort: 5044
         - containerPort: 5045
