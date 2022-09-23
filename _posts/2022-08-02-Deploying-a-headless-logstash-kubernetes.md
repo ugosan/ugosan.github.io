@@ -9,7 +9,15 @@ excerpt: Deploying Logstash in Kubernetes with Centralized Pipeline Management
 <img src="https://images.pexels.com/photos/2569842/pexels-photo-2569842.jpeg?auto=compress&cs=tinysrgb&h=450&dpr=2&fit=crop"/>
 </div>
 
+Top 2 reasons to deploy Logstash on Kubernetes:
+- You can easily scale up and down to deal with throughput
+- You can easily deploy pipelines to potentially hundreds of instances with a single click
+ 
+
 A "headless" Logstash is a Logstash that doesnt contain any pipeline logic in itself, instead it will fetch the pipelines definitions from a <mark> centralized location</mark> (Elasticsearch itself), so we can create our ETL pipelines through Kibana and deploy them automatically to several Logstash instances. This feature is called [Centralized Pipeline Management](https://www.elastic.co/guide/en/logstash/current/logstash-centralized-pipeline-management.html).
+
+
+
 
 <div class="premonition info">
   <i class="premonition pn-info"></i>
