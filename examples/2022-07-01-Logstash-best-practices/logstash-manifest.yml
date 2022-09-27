@@ -1,0 +1,89 @@
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: logstash-secrets
+type: Opaque
+data:
+  ELASTICSEARCH_API_KEY: VERHT2VvTUJpVFkwX2VGM0tLckM6czZuN0Y3ZWhUWGVvelBTX3l6dVVkUQ==
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: logstash-deployment
+spec:
+  replicas: 1
+  revisionHistoryLimit: 0
+  selector:
+    matchLabels:
+      app: logstash
+  template:
+    metadata:
+      labels:
+        app: logstash
+    spec:
+      containers:
+      - name: logstash
+        image: docker.elastic.co/logstash/logstash:8.4.2
+        ports:
+        - containerPort: 5044
+        - containerPort: 5045
+        resources:
+            limits:
+              memory: "2Gi"
+              cpu: "2500m"
+            requests: 
+              memory: "1Gi"
+              cpu: "300m"
+        env: 
+          - name: ELASTICSEARCH_API_KEY
+            valueFrom:
+              secretKeyRef:
+                name: logstash-secrets
+                key: ELASTICSEARCH_API_KEY
+        volumeMounts:
+          - name: config-volume
+            mountPath: /usr/share/logstash/config
+      volumes:
+      - name: config-volume
+        configMap:
+          name: logstash-configmap
+          items:
+            - key: logstash.yml
+              path: logstash.yml
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: logstash-configmap
+data:
+  logstash.yml: |
+    http.host: "0.0.0.0"
+    log.level: info
+    xpack.management.enabled: true
+    xpack.management.elasticsearch.hosts: ["https://blog-dev.es.us-east-1.aws.found.io:443"]  
+    xpack.management.elasticsearch.api_key: "${ELASTICSEARCH_API_KEY}"
+    xpack.management.logstash.poll_interval: 5s
+    xpack.management.pipeline.id: ["my-pipeline-*"]
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: logstash-service
+  labels: 
+    app: logstash
+spec:
+  type: LoadBalancer
+  selector:
+    app: logstash
+  ports:
+  - protocol: TCP
+    port: 5044
+    targetPort: 5044
+    name: my-pipeline-1
+  - protocol: TCP
+    port: 5045
+    targetPort: 5045
+    name: my-pipeline-2

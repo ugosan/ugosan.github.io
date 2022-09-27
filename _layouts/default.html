@@ -16,6 +16,8 @@
 
     <link rel="stylesheet" type="text/css" href="{{ site.baseurl }}/style.css" />
 
+    <link rel="stylesheet" href="{{ "/assets/main.css" | relative_url }}">
+
     <link rel="alternate" type="application/rss+xml" title="{{ site.name }} - {{ site.description }}" href="{{ site.baseurl }}/feed.xml" />
 
   </head>
@@ -28,7 +30,7 @@
 
           <div class="site-info">
             <h1 class="site-name"><a href="{{ site.baseurl }}/">{{ site.name }}</a></h1>
-            <p class="site-description">{{ site.description }}</p>
+            <mark>{{ site.description }}</mark>
           </div>
 
           <!--<nav>
