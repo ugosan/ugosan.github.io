@@ -1,7 +1,7 @@
 ---
 layout: post
-title: Logstash Gsub tricks
-excerpt: Logstash Gsub tricks
+title: Logstash Regex groups on Gsub 
+excerpt: A simple Logstash Gsub trick
 ---
 
 ```
