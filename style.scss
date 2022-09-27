@@ -370,13 +370,17 @@ th {
 
 mark {
   margin: 0 -0.4em;
-  padding: 0.1em 0.4em;
-  border-radius: 0.8em 0.3em;
+  padding-top: 0.01em;
+  padding-right: 0.4em;
+  padding-bottom: 0.01em;
+  padding-left: 0.4em;
+  border-radius: 0.9em 0.5em;
   background: transparent;
-  background-image: linear-gradient( to right, rgba(255, 225, 0, 0.1), rgba(255, 225, 0, 0.7) 4%, rgba(255, 225, 0, 0.3));
+  background-image: linear-gradient(to right, rgba(255,225,0,0.1), rgba(255,225,0,0.7)6%, rgba(255,225,0,0.3));
   -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
 }
+
 
 .anchorjs-link {
   color: #aaa;
