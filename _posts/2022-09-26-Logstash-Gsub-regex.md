@@ -1,16 +1,18 @@
 ---
 layout: post
-title: Logstash Regex groups on Gsub 
+title: Using Regex groups in Logstash's Gsub 
 excerpt: A simple Logstash Gsub trick
 ---
 
-```
-1. JSON parse error, original data now in message field {JSON}
-2. Exception caught in json filter {JSON} :exception=>#<RuntimeError: Invalid FieldReference: `proc.aname[2]`>}
-```
+<mark>Problem</mark>
 
-when you have `proc.aname[2]` and want to have `proc_aname2` - you can use regex groups to automatically change all occurrences of that string: 
+<code>
+Exception caught in json filter {JSON} :exception=>#<RuntimeError: Invalid FieldReference: proc.aname[2]>}
+</code>
 
+When you have `proc.aname[2]` and want to have `proc_aname2` - you can use regex groups to automatically change all occurrences of that string: 
+
+<mark> Solution </mark>
 ```ruby
 mutate {
     gsub => [ "message", "proc\.aname\[([0-9]+)\]", "proc_aname\1"]
