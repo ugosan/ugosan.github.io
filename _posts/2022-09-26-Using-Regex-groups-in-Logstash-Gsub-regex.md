@@ -10,7 +10,7 @@ excerpt: A simple Logstash Gsub trick
 Exception caught in json filter {JSON} :exception=>#<RuntimeError: Invalid FieldReference: proc.aname[2]>}
 </code>
 
-Source: https://elasticstack.slack.com/archives/CNKF2D325/p1664183139854179
+Original [Slack thread](https://elasticstack.slack.com/archives/CNKF2D325/p1664183139854179) 
 
 When you have `proc.aname[2]` and want to have `proc_aname2` - you can use regex groups to automatically change all occurrences of that string: 
 
@@ -26,3 +26,5 @@ Basically parenthesis `()` will make groups that can be later referenced by its 
 <kbd><img src="/images/2022-09-27-10-22-27.png" ></kbd>
 
 Used [Logshark](https://github.com/ugosan/logshark) for debugging
+
+ 
