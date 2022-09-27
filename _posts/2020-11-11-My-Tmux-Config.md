@@ -12,7 +12,6 @@ This is my `.tmux.conf` configuration:
 set -g mouse on
 
 # C O L O R S
-## COLORSCHEME: gruvbox dark
 set-option -g status "on"
 
 # default statusbar color
