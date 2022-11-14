@@ -27,5 +27,57 @@ It will also tell you _events per second_ and the _average document size_, which
 You can run it using the [binary directly](https://github.com/ugosan/logshark/releases) (<5mb) or on [docker](https://github.com/ugosan/logshark/blob/main/docker-compose.yml). The UI can be used on anything that can emulate a terminal, like your regular Linux terminal, iTerm, tmux, PuTTY and even VSCode.
 
 
+## Getting Started
 
+## 1) Start the server
+
+### binary
+
+```perl
+./logshark --host 0.0.0.0 --port 9200 --max 1000
+```
+
+### docker
+
+```perl
+docker run -p 9200:9200 -it ugosan/logshark -host 0.0.0.0 -port 9200
+```
+
+
+### docker-compose.yml
+
+```yaml
+version: "3.2"
+services:
+
+  logshark:
+    image: ugosan/logshark
+    tty: true
+    stdin_open: true
+```
+<mark>note</mark> you should not use "docker-compose up" but instead "docker-compose run logshark sh" since docker-compose doesnt attach to containers with "up". e.g. docker-compose run -p 9200:9200 logshark -port 9200
+
+```
+docker-compose run -p 9200:9200 logshark -port 9200
+```
+
+
+## 2) Point your Logstash pipeline's output to it
+
+Just like a normal `elasticsearch` output:
+
+```ruby
+input {}
+
+filter {}
+
+output {
+  elasticsearch {
+    hosts => ["http://host.docker.internal:9200"]
+  }
+  
+}   
+```
+
+When using docker, you can reach the logshark container from another container using `host.docker.internal` like `docker run --rm byrnedo/alpine-curl -v -XPOST -d '{"hello":"test"}' http://host.docker.internal:9200`
 
