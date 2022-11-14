@@ -129,12 +129,16 @@ b {
 
 .header {
   margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  
 }
 
 .header img {
   border: 0px;
   padding: 0;
   border-radius: 0;
+  filter: drop-shadow(3px 3px 1px #616161);
 }
 
 img {
