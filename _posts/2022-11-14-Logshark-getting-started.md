@@ -5,7 +5,7 @@ excerpt: Debugging Logstash and Filebeat pipelines with Logshark
 tags: logstash filebeat logshark
 ---
 
-I worked for many years as a consultant in Elastic, and coding pipelines in Logstash and Filebeat for large Observability use cases that ingested terabytes worth of logs every day was our bread and butter.
+I worked for many years as a [consultant in Elastic](https://www.elastic.co/consulting), and coding pipelines in Logstash and Filebeat for large Observability use cases that ingested terabytes worth of logs every day was our bread and butter.
 
 Coding pipelines using those tools (and others) is a highly iterative process, specially when dealing with grok patterns to parse unstructured logs: you get some sample data, feed it to an input, and you will be repeating 1) coding the pipeline logic (*filters* in Logstash and *processors* in Filebeat) and 2) inspecting the output, until the logs are correctly parsed.
 
