@@ -2,6 +2,7 @@
 layout: post
 title: Too many fields! 3 ways to prevent mapping explosion in Elasticsearch
 excerpt: More often than not, we have customers indexing fields "just in case" they need to be used for search.
+tags: elasticsearch 
 ---
 
 This blog was originally published as an  [Elastic Blog](https://www.elastic.co/blog/3-ways-to-prevent-mapping-explosion-in-elasticsearch)

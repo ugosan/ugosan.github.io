@@ -2,6 +2,7 @@
 layout: post
 title: Using Regex groups in Logstash's Gsub 
 excerpt: A simple Logstash Gsub trick
+tags: logstash mutate gsub 
 ---
 
 <mark>Problem</mark>

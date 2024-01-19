@@ -2,6 +2,7 @@
 layout: post
 title: Deploying a headless Logstash on Kubernetes
 excerpt: Easily scale up and down to deal with throughput and deploy ETL pipelines to hundreds of instances with a single click
+tags: logstash kubernetes datastreams 
 ---
 
 <div class="header">

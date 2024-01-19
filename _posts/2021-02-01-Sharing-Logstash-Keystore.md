@@ -2,6 +2,7 @@
 layout: post
 title: Sharing Logstash keystore between multiple Logstash containers.
 excerpt: Can Logstash Keystore be shared or reused?
+tags: logstash 
 ---
 
 Create the keystore in one of the containers:

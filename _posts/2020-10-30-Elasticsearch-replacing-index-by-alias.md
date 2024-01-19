@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Elasticsearch - Replacing an index by alias.
+tags: elasticsearch
 ---
 
 You can change an index name by reindexing its data to a different index and switching it to an alias, all behind the scenes with no downtime.

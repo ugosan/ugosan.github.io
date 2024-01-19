@@ -2,6 +2,7 @@
 layout: post
 title: A Short Emergency Response Guide for Elasticsearch
 excerpt: Help! Production is on fire! 
+tags: elasticsearch 
 ---
 
 ## Help! Production is on fire!
