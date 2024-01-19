@@ -16,6 +16,6 @@ kubectl create token k8sadmin -n=kube-system
 
 kubectl config set-credentials k8sadmin-token --token=<YOUR-TOKENHERE>
 
-kubectl config set-context gke_elastic-pme-team_us-central1-a_ugo-cluster-arm  --cluster=gke_elastic-pme-team_us-central1-a_ugo-cluster-arm --user=k8sadmin-token
+kubectl config set-context gke_elastic-pme-team_us-central1-a_ugo-cluster-arm  --cluster=GKE_CLUSTER_NAME --user=k8sadmin-token
 
 ```
