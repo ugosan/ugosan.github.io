@@ -10,11 +10,11 @@
       <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
 
-    <style>
-      @import url('https://fonts.cdnfonts.com/css/bookerly');
-    </style>
+    <link rel="stylesheet" href="https://unpkg.com/normalize.css">
+    <link rel="stylesheet" href="https://unpkg.com/magick.css">
 
     <link rel="stylesheet" type="text/css" href="{{ site.baseurl }}/style.css" />
+
 
     <link rel="alternate" type="application/rss+xml" title="{{ site.name }} - {{ site.description }}" href="{{ site.baseurl }}/feed.xml" />
 
@@ -27,7 +27,7 @@
           <a href="{{ site.baseurl }}/" class="site-avatar"><img src="{{ site.avatar }}" /></a>
 
           <div class="site-info">
-            <h1 class="site-name"><a href="{{ site.baseurl }}/">{{ site.name }}</a></h1>
+            <h2 class="site-name"><a href="{{ site.baseurl }}/">{{ site.name }}</a></h2>
             <mark>{{ site.description }}</mark>
           </div>
 
@@ -69,11 +69,12 @@
         placement: 'left',
         visible: 'always'
       };
-      anchors.add();
+      //anchors.add();
+      anchors.add('article h2, article h3,article h4');
     </script>
 
     <script>
-      const copyButtonLabel = "⧉";
+      const copyButtonLabel = "⧉ copy";
 
       let blocks = document.querySelectorAll("pre");
 
@@ -83,7 +84,7 @@
           let button = document.createElement("button");
           button.innerText = copyButtonLabel;
           button.addEventListener("click", copyCode);
-          block.appendChild(button);
+          block.prepend(button);
         }
       });
 
@@ -94,7 +95,7 @@
         let text = code.innerText;
         await navigator.clipboard.writeText(text);
 
-        button.innerText = "✓ Copied";
+        button.innerText = "✓ copied";
 
         setTimeout(() => {
           button.innerText = copyButtonLabel;

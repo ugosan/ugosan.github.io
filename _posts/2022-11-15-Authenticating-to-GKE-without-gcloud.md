@@ -7,7 +7,7 @@ tags: kubernetes gcloud
 
 How to authenticate to GKE without gcloud CLI
 
-``````
+```
 kubectl create serviceaccount k8sadmin -n kube-system
 
 kubectl create clusterrolebinding k8sadmin --clusterrole=cluster-admin --serviceaccount=kube-system:k8sadmin

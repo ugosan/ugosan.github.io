@@ -23,6 +23,10 @@ body {
   width: 100%;
 }
 
+header {
+  margin-top: 0;
+}
+
 h1,
 h2,
 h3,
@@ -48,6 +52,9 @@ h1 {
 
 h2 {
   font-size: 24px;
+  a {
+    color: inherit;
+  }
 }
 
 h3 {
@@ -145,29 +152,6 @@ img {
   max-width: 100%;
 }
 
-pre {
-  background: #f8f8f8;
-  border-radius: 5px;
-  border: 1px solid #e5e5e5;
-  overflow-x: auto;
-  border: 1px solid;
-  padding: 5px;
-  position: relative;
-}
-
-pre code {
-  border: 0;
-  padding: 0;
-  background: 0;
-}
-
-code {
-  font-size: 16px;
-  background: #f0efef;
-  border-radius: 5px;
-  padding: 2px;
-}
-
 // Fixes images in popup boxes from Google Translate
 .gmnoprint img {
   max-width: none;
@@ -203,6 +187,15 @@ code {
   clear: both;
 }
 
+pre:has(code) {
+  padding: 1rem 1.6rem;
+  margin: 0 0;
+  overflow-y: hidden;
+  font-family: "Courier Prime", monospace;
+  font-size: 1.6rem;
+  border-top: 2px solid var(--fg);
+  border-bottom: 2px solid var(--fg);
+}
 
 /*********************/
 
@@ -393,10 +386,9 @@ mark {
 }
 
 button {
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  padding: .15rem;
+
+  float:right;
+  margin-top: -10px;
   background-color: rgba(0, 0, 0, 0);
   color: #1e1e1e;
   border: 0;
