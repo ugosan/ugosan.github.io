@@ -24,7 +24,7 @@ openssl s_client \
 if you have an actual certificate file for the CA you can just load it:
 
 ```
- openssl x509 -in ca_file.pem -sha256 -fingerprint | grep SHA256 | sed 's/://g'
+ openssl x509 -in ca_file.pem -sha256 -fingerprint | grep -i SHA256 | sed 's/://g'
 ```
 
 The response will be something like
