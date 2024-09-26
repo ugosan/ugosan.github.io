@@ -6,12 +6,15 @@
 @import "premonition";
 // Syntax highlighting @import is at the bottom of this file
 
+
+
 html {
-  font-size: 100%;
+  
 }
 
 body {
   background: $white;
+  background-image: url(/images/sandpaper.png);
   font: 18px/1.4 $helvetica;
   color: $darkGray;
 }
@@ -41,6 +44,7 @@ h6 {
   @include mobile {
     line-height: 1.4;
   }
+  text-transform: none;
 }
 
 h1 {
@@ -65,6 +69,33 @@ h4 {
   font-size: 18px;
   color: $gray;
 }
+
+.mainpage-posts {
+  font-size: 0.7em;
+}
+
+.mainpage-posts h1{
+  font-size: 1.5em;
+  margin: 0;
+}
+
+.mainpage-posts .note {
+  
+  display: block;
+  border-radius: 10px;
+  min-height: 2em;
+  margin-bottom: 1em;
+  padding: 0.5em;
+  background-color: #fff;
+}
+
+.note a {
+  text-decoration: none;
+  color: inherit; 
+}
+
+
+
 
 p {
   margin: 15px 0;
@@ -237,6 +268,8 @@ pre:has(code) {
 
 .site-info {
   float: left;
+  width: 200px;
+  
   @include mobile {
     float: none;
     display: block;
